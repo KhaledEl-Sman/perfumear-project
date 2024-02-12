@@ -15,11 +15,11 @@ I chose the CX21 plan based on the best business case. After evaluating various 
 ### Add SSH Key and Open Port 22
 
 ```bash
-ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@91.107.195.217
+ssh-keygen -t rsa -b 2048 -f perfumear_key
+ssh-copy-id -i ~/.ssh/perfumear_key.pub root@91.107.195.217
 sudo ufw allow 22
 ```
-Configure Firewalls
+Configure Firewalls to enable HTTP/HTTPS requests
 ```bash
 sudo ufw allow 80
 sudo ufw allow 443
@@ -154,11 +154,11 @@ require_once ABSPATH . 'wp-settings.php';
 Access the Database and Create DB for WordPress
 ```bash
 sudo mysql -u root -p
-CREATE DATABASE dbname;
-CREATE USER 'dbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dbpassword';
-GRANT ALL ON dbname.* TO 'dbuser'@'localhost' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-EXIT
+ > CREATE DATABASE dbname;
+ > CREATE USER 'dbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dbpassword';
+ > GRANT ALL ON dbname.* TO 'dbuser'@'localhost' WITH GRANT OPTION;
+ > FLUSH PRIVILEGES;
+ > EXIT
 ```
 ## 6. Nginx Configuration
 Create config file:
@@ -205,7 +205,9 @@ sudo systemctl restart ssh
 ```
 ## 9. WordPress Themes and Plugins
 Purchase and upload themes/plugins from WordPress admin panel. If facing file size limit issues, update PHP config file.
+```bash
 sudo nano /etc/php/8.1/fpm/php.ini
+```
 ### Update upload_max_filesize, post_max_filesize, memory_limit, etc.
 ## 10. SSH Connection Timeout Issue
 If facing SSH connection timeout issue:
@@ -231,5 +233,8 @@ curl -O https://wordpress.org/latest.tar.gz
 ```bash
 sudo mysql -u root -p
 
-# ... (Update database records as needed)
+# ... (If the site gives error (too many requests) but the admin panel works good, update next database records)
+ > USE db_name;
+ > UPDATE wp_options SET option_value = '/' WHERE option_name = 'siteurl';
+ > UPDATE wp_options SET option_value = '/' WHERE option_name = 'home';
 ```
