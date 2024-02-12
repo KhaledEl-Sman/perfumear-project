@@ -34,14 +34,14 @@ adduser khaled
 usermod -aG sudo khaled
 su khaled
 ```
-3. Install Nginx, MySQL, and PHP
+## 3. Install Nginx, MySQL, and PHP
 ```bash
 sudo apt install -y nginx php-dom php-simplexml php-ssh2 php-xml \
 php-xmlreader php-curl php-exif php-ftp php-gd php-iconv \
 php-imagick php-json php-mbstring php-posix php-sockets \
 php-tokenizer php-fpm php-mysql php-gmp php-intl php-cli
 ```
-4. Install WordPress
+## 4. Install WordPress
 ```bash
 cd /var/www/
 sudo wget https://wordpress.org/latest.tar.gz
@@ -49,8 +49,8 @@ sudo tar -xvzf latest.tar.gz
 sudo chown -R www-data:www-data /var/www/wordpress/
 sudo chmod -R 755 /var/www/wordpress/
 ```
-5. Configure WordPress
-### Create wp-config.php
+## 5. Configure WordPress
+Create wp-config.php
 Create the wp-config.php file inside /var/www/wordpress/:
 <?php
 /**
@@ -159,7 +159,7 @@ GRANT ALL ON dbname.* TO 'dbuser'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT
 ```
-6. Nginx Configuration
+## 6. Nginx Configuration
 Create config file:
 ```bash
 sudo nano /etc/nginx/sites-enabled/perfumear
@@ -194,19 +194,19 @@ then apply the changes:
 sudo nginx -t
 sudo service nginx restart
 ```
-7. Domain Setup and SSL
+## 7. Domain Setup and SSL
 Complete WordPress installation by providing DB configurations. Attach the domain to Cloudflare to add SSL certificate.
-8. SSH Connection Issue
+## 8. SSH Connection Issue
 If facing SSH connection issues:
 ```bash
 sudo ufw allow 22
 sudo systemctl restart ssh
 ```
-9. WordPress Themes and Plugins
+## 9. WordPress Themes and Plugins
 Purchase and upload themes/plugins from WordPress admin panel. If facing file size limit issues, update PHP config file.
 sudo nano /etc/php/8.1/fpm/php.ini
 ### Update upload_max_filesize, post_max_filesize, memory_limit, etc.
-10. SSH Connection Timeout Issue
+## 10. SSH Connection Timeout Issue
 If facing SSH connection timeout issue:
 ```bash
 sudo ufw status
@@ -214,7 +214,7 @@ sudo ufw enable
 sudo ufw allow 22
 sudo systemctl restart ssh
 ```
-11. Additional Blog Setup
+## 11. Additional Blog Setup
 Create a new directory for blogs:
 ```bash
 sudo mkdir /var/www/wordpress/blog
@@ -226,7 +226,7 @@ sudo apt install curl
 curl -O https://wordpress.org/latest.tar.gz
 # ... (Follow the steps for WordPress installation)
 ```
-12. Theme Activation and Database Correction
+## 12. Theme Activation and Database Correction
 ```bash
 sudo mysql -u root -p
 
