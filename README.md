@@ -53,6 +53,8 @@ sudo chmod -R 755 /var/www/wordpress/
 ## 5. Configure WordPress
 Create wp-config.php
 Create the wp-config.php file inside /var/www/wordpress/:
+Note: replace every '-----------------------------------------' with its value, I removed theme due to security purposes. and you can create your own values for the authentication keys by generating new values using *wp-cli*.
+```php
 <?php
 /**
  * The base configuration for WordPress
@@ -150,6 +152,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
 ?>
+```
 
 Access the Database and Create DB for WordPress
 ```bash
