@@ -230,10 +230,9 @@ curl -O https://wordpress.org/latest.tar.gz
 # ... (Follow the steps for WordPress installation)
 ```
 ## 12. Theme Activation and Database Correction
+(If the site gives error (too many requests) but the admin panel works good, update next database records)
 ```bash
 sudo mysql -u root -p
-
-# ... (If the site gives error (too many requests) but the admin panel works good, update next database records)
  > USE db_name;
  > UPDATE wp_options SET option_value = '/' WHERE option_name = 'siteurl';
  > UPDATE wp_options SET option_value = '/' WHERE option_name = 'home';
