@@ -38,6 +38,8 @@ su khaled
 ```
 ## 3. Install Nginx, MySQL, and PHP
 ```bash
+sudo apt update
+sudo apt upgrade
 sudo apt install -y nginx php-dom php-simplexml php-ssh2 php-xml \
 php-xmlreader php-curl php-exif php-ftp php-gd php-iconv \
 php-imagick php-json php-mbstring php-posix php-sockets \
