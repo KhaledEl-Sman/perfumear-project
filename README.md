@@ -32,7 +32,7 @@ sudo ufw allow https
 ```
 Add New User
 ```bash
-sudo adduser username && sudo usermod -aG sudo username && su username
+sudo adduser username && sudo usermod -aG sudo username && su - username
 ```
 Add SSH key for that user on local device then add it to authorized_keys file for the new user on the server
 ```bash
