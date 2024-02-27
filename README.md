@@ -15,7 +15,16 @@ I chose the CX21 plan after carefully assessing different cloud providers, inclu
 
 ### Configure Firewalls to enable SSH and HTTP/HTTPS requests
 ```bash
-sudo ufw enable && sudo ufw allow 22 && sudo ufw allow 80 && sudo ufw allow 443
+sudo ufw enable
+```
+```bash
+sudo ufw allow ssh
+```
+```bash
+sudo ufw allow http
+```
+```bash
+sudo ufw allow https
 ```
 Connect To Server
 ```bash
