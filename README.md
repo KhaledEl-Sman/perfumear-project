@@ -19,7 +19,7 @@ sudo ufw enable && sudo ufw allow 22 && sudo ufw allow 80 && sudo ufw allow 443
 ```
 Connect To Server
 ```bash
-ssh -i ~/.ssh/keyname root@91.107.195.217
+ssh -i ~/.ssh/<keyname> root@<serverip>
 ```
 Add New User
 ```bash
