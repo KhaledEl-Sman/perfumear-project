@@ -214,7 +214,17 @@ Purchase and upload themes/plugins from WordPress admin panel. If facing file si
 ```bash
 sudo nano /etc/php/8.1/fpm/php.ini
 ```
-### Update upload_max_filesize, post_max_filesize, memory_limit, etc.
+### Update some attributes inside the file as next:-
+upload_max_filesize = 200M
+post_max_size = 500M
+memory_limit = 512M
+cgi.fix_pathinfo = 0
+max_execution_time = 360
+- Then apply the changes
+```bash
+sudo systemctl restart php8.1-fpm.service
+```
+
 ## 10. SSH Connection Timeout Issue
 If facing SSH connection timeout issue:
 ```bash
