@@ -13,32 +13,42 @@ I chose the CX21 plan after carefully assessing different cloud providers, inclu
 
 ## 2. Server Setup
 
-### Add SSH Key and Open Port 22
-
+### Configure Firewalls to enable SSH and HTTP/HTTPS requests
 ```bash
-ssh-keygen -t rsa -b 2048 -f perfumear_key
-ssh-copy-id -i ~/.ssh/perfumear_key.pub root@91.107.195.217
-```
-Configure Firewalls to enable HTTP/HTTPS requests
-```bash
-sudo ufw allow 80
-sudo ufw allow 443
 sudo ufw enable
 ```
-Connect to Server
 ```bash
-ssh -i ~/.ssh/sna root@91.107.195.217
+sudo ufw allow 22
 ```
-Add Superadmin User
 ```bash
-adduser khaled
-usermod -aG sudo khaled
-su khaled
+sudo ufw allow 80
 ```
-## 3. Install Nginx, and PHP
+```bash
+sudo ufw allow 443
+```
+Connect To Server
+```bash
+ssh -i ~/.ssh/keyname root@91.107.195.217
+```
+Add New User
+```bash
+sudo adduser username && sudo usermod -aG sudo username && su username
+```
+Add SSH key for that user on local device then add it to authorized_keys file for the new user on the server
+```bash
+ssh-keygen -t rsa -b 2048 -f <keyname>
+```
+```bash
+ssh-copy-id -i ~/.ssh/<keyname>.pub root@<serverip>
+```
+## 3. Install Nginx and PHP
 ```bash
 sudo apt update
+```
+```bash
 sudo apt upgrade
+```
+```bash
 sudo apt install -y nginx php-dom php-simplexml php-ssh2 php-xml \
 php-xmlreader php-curl php-exif php-ftp php-gd php-iconv \
 php-imagick php-json php-mbstring php-posix php-sockets \
@@ -46,20 +56,41 @@ php-tokenizer php-fpm php-mysql php-gmp php-intl php-cli
 ```
 ## 4. Install MySQL
 ```bash
-MySQL
+sudo apt install mysql-server
 ```
+
 ## 5. Install WordPress
 ```bash
 cd /var/www/
+```
+```bash
 sudo wget https://wordpress.org/latest.tar.gz
+```
+```bash
 sudo tar -xvzf latest.tar.gz
+```
+```bash
 sudo chown -R www-data:www-data /var/www/wordpress/
+```
+```bash
 sudo chmod -R 755 /var/www/wordpress/
 ```
+
 ## 6. Configure WordPress
-Create wp-config.php
-Create the wp-config.php file inside /var/www/wordpress/:
-Note: replace every '-----------------------------------------' with its value, I removed theme due to security purposes. and you can create your own values for the authentication keys by generating new values using *wp-cli*.
+Access the Database and Create DB for each WordPress website and one user for all of them
+```bash
+sudo mysql -u root -p
+ > CREATE DATABASE dbname;
+ > CREATE USER 'dbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dbpassword';
+ > GRANT ALL ON dbname.* TO 'dbuser'@'localhost' WITH GRANT OPTION;
+ > FLUSH PRIVILEGES;
+ > EXIT
+```
+Then create the wp-config.php file inside /var/www/wordpress/:
+```bash
+sudo mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php
+```
+*Note: replace every '-----------------------------------------' with its value, I removed theme due to security purposes. and you can create your own values for the authentication keys by generating new values using wp-cli*.
 ```php
 <?php
 /**
@@ -160,15 +191,6 @@ require_once ABSPATH . 'wp-settings.php';
 ?>
 ```
 
-Access the Database and Create DB for WordPress
-```bash
-sudo mysql -u root -p
- > CREATE DATABASE dbname;
- > CREATE USER 'dbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dbpassword';
- > GRANT ALL ON dbname.* TO 'dbuser'@'localhost' WITH GRANT OPTION;
- > FLUSH PRIVILEGES;
- > EXIT
-```
 ## 7. Nginx Configuration
 Create config file:
 ```bash
@@ -202,16 +224,29 @@ server {
 Then apply the changes:
 ```bash
 sudo nginx -t
+```
+```bash
 sudo service nginx restart
 ```
+
 ## 8. Domain Setup and SSL
 Complete WordPress installation by providing DB configurations. Attach the domain to Cloudflare to add SSL certificate.
-## 9. SSH Connection Issue
-If facing SSH connection issues:
+
+## 9. SSH Connection Issue / Timeout Issue
+If facing SSH connection issues run next commands on Hetzner console:
+```bash
+sudo ufw status
+```
+```bash
+sudo ufw enable
+```
 ```bash
 sudo ufw allow 22
+```
+```bash
 sudo systemctl restart ssh
 ```
+
 ## 10. WordPress Themes and Plugins
 Purchase and upload themes/plugins from WordPress admin panel. If facing file size limit issues, update PHP config file.
 ```bash
@@ -228,26 +263,23 @@ Then apply the changes
 sudo systemctl restart php8.1-fpm.service
 ```
 
-## 11. SSH Connection Timeout Issue
-If facing SSH connection timeout issue:
-```bash
-sudo ufw status
-sudo ufw enable
-sudo ufw allow 22
-sudo systemctl restart ssh
-```
 ## 12. Additional Blog Setup
 Create a new directory for blogs:
 ```bash
 sudo mkdir /var/www/wordpress/blog
 ```
-Then install blog WordPress:
+Another way to install WordPress:
 ```bash
 sudo apt update
-sudo apt install curl
-curl -O https://wordpress.org/latest.tar.gz
-# ... (Follow the steps for WordPress installation)
 ```
+```bash
+sudo apt install curl
+```
+```bash
+curl -O https://wordpress.org/latest.tar.gz
+```
+Then follow the steps for WordPress installation
+
 ## 13. Theme Activation and Database Correction
 (If the site gives error (too many requests) but the admin panel works good, update next database records)
 ```bash
