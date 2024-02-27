@@ -15,16 +15,7 @@ I chose the CX21 plan after carefully assessing different cloud providers, inclu
 
 ### Configure Firewalls to enable SSH and HTTP/HTTPS requests
 ```bash
-sudo ufw enable
-```
-```bash
-sudo ufw allow 22
-```
-```bash
-sudo ufw allow 80
-```
-```bash
-sudo ufw allow 443
+sudo ufw enable && sudo ufw allow 22 && sudo ufw allow 80 && sudo ufw allow 443
 ```
 Connect To Server
 ```bash
@@ -61,19 +52,7 @@ sudo apt install mysql-server
 
 ## 5. Install WordPress
 ```bash
-cd /var/www/
-```
-```bash
-sudo wget https://wordpress.org/latest.tar.gz
-```
-```bash
-sudo tar -xvzf latest.tar.gz
-```
-```bash
-sudo chown -R www-data:www-data /var/www/wordpress/
-```
-```bash
-sudo chmod -R 755 /var/www/wordpress/
+cd /var/www/ && sudo wget https://wordpress.org/latest.tar.gz && sudo tar -xvzf latest.tar.gz && sudo chown -R www-data:www-data /var/www/wordpress/ && sudo chmod -R 755 /var/www/wordpress/
 ```
 
 ## 6. Configure WordPress
@@ -223,10 +202,7 @@ server {
 ```
 Then apply the changes:
 ```bash
-sudo nginx -t
-```
-```bash
-sudo service nginx restart
+sudo nginx -t && sudo service nginx restart
 ```
 
 ## 8. Domain Setup and SSL
@@ -235,16 +211,7 @@ Complete WordPress installation by providing DB configurations. Attach the domai
 ## 9. SSH Connection Issue / Timeout Issue
 If facing SSH connection issues run next commands on Hetzner console:
 ```bash
-sudo ufw status
-```
-```bash
-sudo ufw enable
-```
-```bash
-sudo ufw allow 22
-```
-```bash
-sudo systemctl restart ssh
+sudo ufw status && sudo ufw enable && sudo ufw allow 22 && sudo systemctl restart ssh
 ```
 
 ## 10. WordPress Themes and Plugins
