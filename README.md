@@ -36,7 +36,7 @@ adduser khaled
 usermod -aG sudo khaled
 su khaled
 ```
-## 3. Install Nginx, MySQL, and PHP
+## 3. Install Nginx, and PHP
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -45,7 +45,11 @@ php-xmlreader php-curl php-exif php-ftp php-gd php-iconv \
 php-imagick php-json php-mbstring php-posix php-sockets \
 php-tokenizer php-fpm php-mysql php-gmp php-intl php-cli
 ```
-## 4. Install WordPress
+## 4. Install MySQL
+```bash
+MySQL
+```
+## 5. Install WordPress
 ```bash
 cd /var/www/
 sudo wget https://wordpress.org/latest.tar.gz
@@ -53,7 +57,7 @@ sudo tar -xvzf latest.tar.gz
 sudo chown -R www-data:www-data /var/www/wordpress/
 sudo chmod -R 755 /var/www/wordpress/
 ```
-## 5. Configure WordPress
+## 6. Configure WordPress
 Create wp-config.php
 Create the wp-config.php file inside /var/www/wordpress/:
 Note: replace every '-----------------------------------------' with its value, I removed theme due to security purposes. and you can create your own values for the authentication keys by generating new values using *wp-cli*.
@@ -166,7 +170,7 @@ sudo mysql -u root -p
  > FLUSH PRIVILEGES;
  > EXIT
 ```
-## 6. Nginx Configuration
+## 7. Nginx Configuration
 Create config file:
 ```bash
 sudo nano /etc/nginx/sites-enabled/perfumear
@@ -201,15 +205,15 @@ Then apply the changes:
 sudo nginx -t
 sudo service nginx restart
 ```
-## 7. Domain Setup and SSL
+## 8. Domain Setup and SSL
 Complete WordPress installation by providing DB configurations. Attach the domain to Cloudflare to add SSL certificate.
-## 8. SSH Connection Issue
+## 9. SSH Connection Issue
 If facing SSH connection issues:
 ```bash
 sudo ufw allow 22
 sudo systemctl restart ssh
 ```
-## 9. WordPress Themes and Plugins
+## 10. WordPress Themes and Plugins
 Purchase and upload themes/plugins from WordPress admin panel. If facing file size limit issues, update PHP config file.
 ```bash
 sudo nano /etc/php/8.1/fpm/php.ini
@@ -225,7 +229,7 @@ Then apply the changes
 sudo systemctl restart php8.1-fpm.service
 ```
 
-## 10. SSH Connection Timeout Issue
+## 11. SSH Connection Timeout Issue
 If facing SSH connection timeout issue:
 ```bash
 sudo ufw status
@@ -233,7 +237,7 @@ sudo ufw enable
 sudo ufw allow 22
 sudo systemctl restart ssh
 ```
-## 11. Additional Blog Setup
+## 12. Additional Blog Setup
 Create a new directory for blogs:
 ```bash
 sudo mkdir /var/www/wordpress/blog
@@ -245,7 +249,7 @@ sudo apt install curl
 curl -O https://wordpress.org/latest.tar.gz
 # ... (Follow the steps for WordPress installation)
 ```
-## 12. Theme Activation and Database Correction
+## 13. Theme Activation and Database Correction
 (If the site gives error (too many requests) but the admin panel works good, update next database records)
 ```bash
 sudo mysql -u root -p
