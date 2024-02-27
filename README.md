@@ -18,7 +18,6 @@ I chose the CX21 plan after carefully assessing different cloud providers, inclu
 ```bash
 ssh-keygen -t rsa -b 2048 -f perfumear_key
 ssh-copy-id -i ~/.ssh/perfumear_key.pub root@91.107.195.217
-sudo ufw allow 22
 ```
 Configure Firewalls to enable HTTP/HTTPS requests
 ```bash
