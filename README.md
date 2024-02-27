@@ -13,7 +13,11 @@ I chose the CX21 plan after carefully assessing different cloud providers, inclu
 
 ## 2. Server Setup
 
-### Configure Firewalls to enable SSH and HTTP/HTTPS requests
+Connect To Server
+```bash
+ssh -i ~/.ssh/<keyname> root@<serverip>
+```
+Configure Firewalls to enable SSH and HTTP/HTTPS requests
 ```bash
 sudo ufw enable
 ```
@@ -25,10 +29,6 @@ sudo ufw allow http
 ```
 ```bash
 sudo ufw allow https
-```
-Connect To Server
-```bash
-ssh -i ~/.ssh/<keyname> root@<serverip>
 ```
 Add New User
 ```bash
