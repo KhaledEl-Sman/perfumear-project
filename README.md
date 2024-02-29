@@ -7,261 +7,154 @@ Perfumear Project: A step-by-step guide for hosting WordPress themes on a Hetzne
 
 ## 1. Buy Shared Server from Hetzner (CX21)
 
-I chose the CX21 plan after carefully assessing different cloud providers, including DigitalOcean, Cloudways, Linode, Vultr, and AWS. Hetzner emerged as the optimal solution, offering a combination of affordability, simplicity, and speed.
+I Chose The CX21 Plan After Carefully Assessing Different Cloud Providers, Including DigitalOcean, Cloudways, Linode, Vultr, And AWS. Hetzner Emerged As The Optimal Solution, Offering A Combination Of Affordability, Simplicity, And Speed.
 
 ![PLAN_NAME](https://khaledel-sman.github.io/perfumear-project/plan.png)
 ![PLAN_SETUP](https://khaledel-sman.github.io/perfumear-project/Hetzner_setup.jpg)
 
-## 2. Server Setup
+## 2. Update And Upgrade
+```bash
+sudo apt update
+sudo apt upgrade
 
-Connect To Server
-```bash
-ssh -i ~/.ssh/<keyname> root@<serverip>
 ```
-Configure Firewalls to enable SSH and HTTP/HTTPS requests
-```bash
-sudo ufw enable
-```
-```bash
-sudo ufw allow ssh
-```
-```bash
-sudo ufw allow http
-```
-```bash
-sudo ufw allow https
-```
-Add New User
+
+## 3. Create Sudo User 
 ```bash
 sudo adduser username && sudo usermod -aG sudo username && su - username
 ```
-Add SSH key for that user on local device then add it to authorized_keys file for the new user on the server
+
+## 4. Install Nginx
 ```bash
-ssh-keygen -t rsa -b 2048 -f <keyname>
+sudo apt install nginx
+
 ```
-```bash
-ssh-copy-id -i ~/.ssh/<keyname>.pub root@<serverip>
-```
-## 3. Install Nginx and PHP
-```bash
-sudo apt update
-```
-```bash
-sudo apt upgrade
-```
-```bash
-sudo apt install -y nginx php-dom php-simplexml php-ssh2 php-xml \
-php-xmlreader php-curl php-exif php-ftp php-gd php-iconv \
-php-imagick php-json php-mbstring php-posix php-sockets \
-php-tokenizer php-fpm php-mysql php-gmp php-intl php-cli
-```
-## 4. Install MySQL
+
+## 5. Install MySQL
 ```bash
 sudo apt install mysql-server
+
 ```
 
-## 5. Install WordPress
+## 5. Install MySQL
 ```bash
-cd /var/www/ && sudo wget https://wordpress.org/latest.tar.gz && sudo tar -xvzf latest.tar.gz && sudo chown -R www-data:www-data /var/www/wordpress/ && sudo chmod -R 755 /var/www/wordpress/
-```
+sudo apt install mysql-server
 
-## 6. Configure WordPress
-Access the Database and Create DB for each WordPress website and one user for all of them
+```
+Add Password To Root User Via MySQL-CLI
 ```bash
-sudo mysql -u root -p
- > CREATE DATABASE dbname;
- > CREATE USER 'dbuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'dbpassword';
- > GRANT ALL ON dbname.* TO 'dbuser'@'localhost' WITH GRANT OPTION;
- > FLUSH PRIVILEGES;
- > EXIT
+sudo mysql
+
 ```
-Then create the wp-config.php file inside /var/www/wordpress/:
+```mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'db_root_password';
+EXIT;
+```
+
+## 6. Install PHP and Required Extensions
 ```bash
-sudo mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php
+sudo apt install php-fpm php-mysql
+
 ```
-*Note: replace every '-----------------------------------------' with its value, I removed theme due to security purposes. and you can create your own values for the authentication keys by generating new values using wp-cli*.
-```php
-<?php
-/**
- * The base configuration for WordPress
- *
- * The wp-config.php creation script uses this file during the installation.
- * You don't have to use the web site, you can copy this file to "wp-config.php"
- * and fill in the values.
- *
- * This file contains the following configurations:
- *
- * * Database settings
- * * Secret keys
- * * Database table prefix
- * * ABSPATH
- *
- * @link https://wordpress.org/documentation/article/editing-wp-config-php/
- *
- * @package WordPress
- */
-
-// ** Database settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
-define( 'DB_NAME', ‘db_name’);
-
-/** Database username */
-define( 'DB_USER', ‘db_user’);
-
-/** Database password */
-define( 'DB_PASSWORD', ‘db_password’);
-
-/** Database hostname */
-define( 'DB_HOST', 'localhost' );
-
-/** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8mb4' );
-
-/** The database collate type. Don't change this if in doubt. */
-define( 'DB_COLLATE', '' );
-
-/**#@+
- * Authentication unique keys and salts.
- *
- * Change these to different unique phrases! You can generate these using
- * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
- *
- * You can change these at any point in time to invalidate all existing cookies.
- * This will force all users to have to log in again.
- *
- * @since 2.6.0
- */
-define( 'AUTH_KEY',         '-----------------------------------------' );
-define( 'SECURE_AUTH_KEY',  '-----------------------------------------' );
-define( 'LOGGED_IN_KEY',    '-----------------------------------------' );
-define( 'NONCE_KEY',        '-----------------------------------------' );
-define( 'AUTH_SALT',        '-----------------------------------------' );
-define( 'SECURE_AUTH_SALT', '-----------------------------------------' );
-define( 'LOGGED_IN_SALT',   '-----------------------------------------' );
-define( 'NONCE_SALT',       '-----------------------------------------' );
-
-/**#@-*/
-
-/**
- * WordPress database table prefix.
- *
- * You can have multiple installations in one database if you give each
- * a unique prefix. Only numbers, letters, and underscores please!
- */
-$table_prefix = 'wp_';
-
-/**
- * For developers: WordPress debugging mode.
- *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
- *
- * For information on other constants that can be used for debugging,
- * visit the documentation.
- *
- * @link https://wordpress.org/documentation/article/debugging-in-wordpress/
- */
-define( 'WP_DEBUG', false );
-
-/* Add any custom values between this line and the "stop editing" line. */
-
-
-
-/* That's all, stop editing! Happy publishing. */
-
-/** Absolute path to the WordPress directory. */
-if ( ! defined( 'ABSPATH' ) ) {
-        define( 'ABSPATH', __DIR__ . '/' );
-}
-
-/** Sets up WordPress vars and included files. */
-require_once ABSPATH . 'wp-settings.php';
-?>
-```
-
-## 7. Nginx Configuration
-Create config file:
-```bash
-sudo nano /etc/nginx/sites-enabled/perfumear
-```
-config file content:
-```bash
-server {
-    listen 80;
-    listen [::]:80;
-    server_name  perfumear.com www.perfumear.com;
-    root /var/www/wordpress;
-    index  index.php index.html index.htm;
-    access_log /var/log/nginx/wpress_access.log;
-    error_log /var/log/nginx/wpress_error.log;
-
-    client_max_body_size 100M;
-    autoindex off;
-    location / {
-        try_files $uri $uri/ /index.php?$args;
-    }
-
-    location ~ \.php$ {
-         include snippets/fastcgi-php.conf;
-         fastcgi_pass unix:/var/run/php/php-fpm8.1.sock;
-         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-         include fastcgi_params;
-    }
-}
-```
-Then apply the changes:
-```bash
-sudo nginx -t && sudo service nginx restart
-```
-
-## 8. Domain Setup and SSL
-Complete WordPress installation by providing DB configurations. Attach the domain to Cloudflare to add SSL certificate.
-
-## 9. SSH Connection Issue / Timeout Issue
-If facing SSH connection issues run next commands on Hetzner console:
-```bash
-sudo ufw status && sudo ufw enable && sudo ufw allow 22 && sudo systemctl restart ssh
-```
-
-## 10. WordPress Themes and Plugins
-Purchase and upload themes/plugins from WordPress admin panel. If facing file size limit issues, update PHP config file.
-```bash
-sudo nano /etc/php/8.1/fpm/php.ini
-```
-### Update some attributes inside the file as next:-
+### And Then Update Some Attributes Inside The *php.ini* File As Next:-
 upload_max_filesize = 200M,
 post_max_size = 500M,
 memory_limit = 512M,
 cgi.fix_pathinfo = 0,
 max_execution_time = 360
+```bash
+sudo nano /etc/php/<php_version>/fpm/php.ini
+```
 Then apply the changes
 ```bash
-sudo systemctl restart php8.1-fpm.service
+sudo nginx -t && sudo service nginx restart
+
 ```
 
-## 12. Additional Blog Setup
-Create a new directory for blogs:
+## 7. Configure Nginx for WordPress
 ```bash
-sudo mkdir /var/www/wordpress/blog
+sudo nano /etc/nginx/sites-available/<domainName>
 ```
-Another way to install WordPress:
-```bash
-sudo apt update
-```
-```bash
-sudo apt install curl
-```
-```bash
-curl -O https://wordpress.org/latest.tar.gz
-```
-Then follow the steps for WordPress installation
+Then Add the following configuration, adjusting paths and server_name:
+```sh
+server {
+    listen 80;
+    server_name  **<domainName>**.com www.**<domainName>**.com;
 
-## 13. Theme Activation and Database Correction
-(If the site gives error (too many requests) but the admin panel works good, update next database records)
+    root /var/www/**wordpress**;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php**<php_version>**-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+```
+Then Enable The Site And Restart Nginx:
+```bash
+sudo ln -s /etc/nginx/sites-available/domainName /etc/nginx/sites-enabled
+sudo systemctl restart nginx
+```
+
+## 8. Create MySQL Database And User
 ```bash
 sudo mysql -u root -p
- > USE db_name;
- > UPDATE wp_options SET option_value = '/' WHERE option_name = 'siteurl';
- > UPDATE wp_options SET option_value = '/' WHERE option_name = 'home';
+
+```
+```mysql
+CREATE DATABASE db_name;
+CREATE DATABASE blogs_db_name;
+CREATE USER 'khaled'@'localhost' IDENTIFIED BY 'user_password';
+GRANT ALL PRIVILEGES ON *.* TO 'khaled'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+## 9. Install WordPress And Set Correct Ownership
+```bash
+cd /var/www/ && sudo wget https://wordpress.org/latest.tar.gz && sudo tar -xvzf latest.tar.gz && sudo chown -R www-data:www-data /var/www/wordpress/ && sudo chmod -R 755 /var/www/wordpress/
+
+```
+Then Copy The Sample Configuration:
+```bash
+sudo cp /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php
+
+```
+And Edit On it By Providing Next Values
+> define( 'DB_NAME', 'db_name' );
+> define( 'DB_USER', 'db_user' );
+> define( 'DB_PASSWORD', 'db_password' );
+```bash
+sudo nano /var/www/wordpress/wp-config.php
+
+```
+*Then Do The Same Thing With Blog Website Also*
+
+## 10. Domain Setup and SSL
+Attach The Domain To Cloudflare And Enable SSL certificate (HTTPS) By Changing The Nameserver DNS Records For The Domain Provider By Replacing Them With Cloudflare's Records.
+
+## 11. Database Correction And Complete The Project
+```bash
+sudo mysql -u root -p
+
+```
+Then Edit Next Records
+```mysql
+USE <db_name>;
+UPDATE wp_options SET option_value = '/' WHERE option_name = 'siteurl';
+UPDATE wp_options SET option_value = '/' WHERE option_name = 'home';
+USE <blogs_db_name>;
+UPDATE wp_options SET option_value = '/blog' WHERE option_name = 'siteurl';
+UPDATE wp_options SET option_value = '/blog' WHERE option_name = 'home';
+EXIT;
 ```
