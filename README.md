@@ -9,9 +9,8 @@ Perfumear Project: A step-by-step guide for hosting WordPress themes on a Hetzne
 
 I chose the CX21 plan after carefully assessing different cloud providers, including DigitalOcean, Cloudways, Linode, Vultr, and AWS. Hetzner emerged as the optimal solution, offering a combination of affordability, simplicity, and speed.
 
-![CX21 plan details](https://cdn13674555.blazingcdn.net/Docs/CX21.PNG)
-
-![Plan setup details]([https://cdn13674555.blazingcdn.net/Docs/CX21.PNG](https://khaledel-sman.github.io/perfumear-project/Hetzner_setup.jpg))
+![PLAN_NAME](https://khaledel-sman.github.io/perfumear-project/plan.png)
+![PLAN_SETUP](https://khaledel-sman.github.io/perfumear-project/Hetzner_setup.jpg)
 
 ## 2. Server Setup
 
