@@ -75,7 +75,7 @@ Then Add the following configuration, adjusting paths and server_name:
 ```sh
 server {
     listen 80;
-    server_name  domainName.com www.domainName.com;
+    server_name  <domainName>.com www.<domainName>.com;
 
     root /var/www/wordpress;
     index index.php index.html index.htm;
@@ -86,7 +86,7 @@ server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/phpphp_version-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php<php_version>-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
