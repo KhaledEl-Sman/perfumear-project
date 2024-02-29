@@ -11,6 +11,8 @@ I chose the CX21 plan after carefully assessing different cloud providers, inclu
 
 ![CX21 plan details](https://cdn13674555.blazingcdn.net/Docs/CX21.PNG)
 
+![Plan setup details]([https://cdn13674555.blazingcdn.net/Docs/CX21.PNG](https://khaledel-sman.github.io/perfumear-project/Hetzner_setup.jpg))
+
 ## 2. Server Setup
 
 Connect To Server
