@@ -57,11 +57,7 @@ sudo apt install php-fpm php-mysql
 
 ```
 ### And Then Update Some Attributes Inside The *php.ini* File As Next:-
-> upload_max_filesize = 200M
-> post_max_size = 500M
-> memory_limit = 512M
-> cgi.fix_pathinfo = 0
-> max_execution_time = 360
+> upload_max_filesize = 200M, post_max_size = 500M, memory_limit = 512M, cgi.fix_pathinfo = 0, max_execution_time = 360
 ```bash
 sudo nano /etc/php/<php_version>/fpm/php.ini
 ```
