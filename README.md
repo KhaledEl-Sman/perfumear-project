@@ -35,12 +35,6 @@ sudo apt install nginx
 sudo apt install mysql-server
 
 ```
-
-## 5. Install MySQL
-```bash
-sudo apt install mysql-server
-
-```
 Add Password To Root User Via MySQL-CLI
 ```bash
 sudo mysql
