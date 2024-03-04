@@ -102,6 +102,8 @@ server {
     location ~ /\.ht {
         deny all;
     }
+
+    client_max_body_size 200M;
 }
 ```
 Then Enable The Site And Restart Nginx:
