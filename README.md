@@ -69,6 +69,11 @@ Then apply the changes
 sudo nginx -t && sudo service nginx restart
 
 ```
+And You Can Test Your Changes Via Next Command For Example
+```bash
+php8.1 -i | grep upload_max_filesize
+
+```
 
 ## 7. Configure Nginx for WordPress
 ```bash
